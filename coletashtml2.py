@@ -78,25 +78,25 @@ with col_esquerda:
     exame_selecionado = None
     if exames_filtrados:
         exame_selecionado = st.selectbox("Exames encontrados:", exames_filtrados)
-    elif termo:
-        st.warning("Nenhum exame encontrado.")
 
 # Coluna da direita: exibir detalhes do exame
 with col_direita:
     if exame_selecionado:
-        resultado = dados[dados['EXAMES'] == exame_selecionado].iloc[0]
+        resultado_df = dados[dados['EXAMES'] == exame_selecionado]
+        if not resultado_df.empty:
+            resultado = resultado_df.iloc[0]
 
-        def box(titulo, valor):
-            if pd.notna(valor) and str(valor).strip():
-                st.markdown(f"<div class='box'><span class='label'>{titulo}:</span><span>{valor}</span></div>", unsafe_allow_html=True)
+            def box(titulo, valor):
+                if pd.notna(valor) and str(valor).strip():
+                    st.markdown(f"<div class='box'><span class='label'>{titulo}:</span><span>{valor}</span></div>", unsafe_allow_html=True)
 
-        st.subheader(f"📄 Detalhes do exame: {resultado['EXAMES']}")
-        box("Código", resultado['CÓDIGO'])
-        box("Prazo", resultado['PRAZO'])
-        box("Tubo", resultado['TUBO'])
-        box("Cuidados Especiais", resultado['CUIDADOS ESPECIAIS'])
-        box("Laboratório", resultado['LABORATÓRIO'])
-        box("Conteúdo", resultado['CONTEÚDO'])
+            st.subheader(f"📄 Detalhes do exame: {resultado.get('EXAMES', 'Exame')}")
+            box("Código", resultado.get('CÓDIGO', ''))
+            box("Prazo", resultado.get('PRAZO', ''))
+            box("Tubo", resultado.get('TUBO', ''))
+            box("Cuidados Especiais", resultado.get('CUIDADOS ESPECIAIS', ''))
+            box("Laboratório", resultado.get('LABORATÓRIO', ''))
+            box("Conteúdo", resultado.get('CONTEÚDO', ''))
 
 # Rodapé
 st.markdown("""
