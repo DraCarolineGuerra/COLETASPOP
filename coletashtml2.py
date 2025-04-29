@@ -8,8 +8,8 @@ st.set_page_config(page_title="Coleta+ 🐾", layout="wide")
 st.markdown("""
     <style>
     html, body, [class*="st-"] {
-        background-color: #2c1a8d;
-        color: #ffffff !important;
+        background-color: #f5f5f5;
+        color: #000000 !important;
         font-family: 'Segoe UI', sans-serif;
     }
     input, textarea, select {
@@ -17,13 +17,13 @@ st.markdown("""
         background-color: #ffffff !important;
     }
     .stApp {
-        background-color: #2c1a8d;
+        background-color: #f5f5f5;
     }
     .block-container {
         padding-top: 2rem;
     }
     .title {
-        color: #ffffff;
+        color: #6a0dad;
         font-size: 2.5rem;
         font-weight: bold;
     }
