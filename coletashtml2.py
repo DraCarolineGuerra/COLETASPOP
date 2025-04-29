@@ -4,31 +4,32 @@ import pandas as pd
 # Layout da página (PRIMEIRO COMANDO STREAMLIT)
 st.set_page_config(page_title="Coleta+ 🐾", layout="wide")
 
+# Estilo personalizado
 st.markdown("""
     <style>
     html, body, [class*="st-"] {
-        background-color: #2c1a8d;  /* Cor roxa escura */
-        color: #ffffff !important;  /* Cor da letra branca para contrastar */
+        background-color: #2c1a8d;
+        color: #ffffff !important;
         font-family: 'Segoe UI', sans-serif;
     }
     input, textarea, select {
-        color: #333333 !important;
+        color: #000000 !important;
         background-color: #ffffff !important;
     }
     .stApp {
-        background-color: #2c1a8d;  /* Cor roxa escura */
+        background-color: #2c1a8d;
     }
     .block-container {
         padding-top: 2rem;
     }
     .title {
-        color: #ffffff;  /* Cor branca para o título */
+        color: #ffffff;
         font-size: 2.5rem;
         font-weight: bold;
     }
     .box {
         background-color: #ffffff;
-        border-left: 6px solid #6a0dad;  /* Mantém o roxo na borda */
+        border-left: 6px solid #6a0dad;
         padding: 1rem;
         margin-bottom: 1rem;
         border-radius: 10px;
@@ -45,13 +46,14 @@ st.markdown("""
     </style>
 """, unsafe_allow_html=True)
 
+# Cabeçalho com logo e título
 col_logo, col_title = st.columns([1, 8])
 with col_logo:
     st.image("logo_hospital.png", width=80)
 with col_title:
     st.markdown("<div class='title'>Coleta+ 🐾</div>", unsafe_allow_html=True)
 
-# dados
+# Carregar dados
 try:
     dados = pd.read_csv('BANCO DE DADOS.csv', encoding='latin1')
     dados.columns = dados.columns.str.strip()
