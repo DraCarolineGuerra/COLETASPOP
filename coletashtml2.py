@@ -16,31 +16,20 @@ st.set_page_config(
 # FUNÇÃO PARA CARREGAR DADOS (SIMPLES!)
 # ======================================
 @st.cache_data
+@st.cache_data
 def load_data():
-    """Carrega dados de uma planilha pública do Google Sheets"""
+    """Carrega os dados de um arquivo local Excel"""
     try:
-        # URL pública da sua planilha (formato CSV)
-        sheet_id = "14iqQIJS11Fq7B1jPVxI_7Pkl4FMn2buu"  # ID da sua planilha
-        url = f"https://docs.google.com/spreadsheets/d/{sheet_id}/export?format=csv"
-        
-        dados = pd.read_csv(url)
-        dados.columns = dados.columns.str.strip()
-        
+        dados = pd.read_excel("exames.xlsx")
+        dados.columns = dados.columns.str.strip()  # Remove espaços extras nos nomes das colunas
         if 'CONTEÚDO' not in dados.columns:
             dados['CONTEÚDO'] = ''
-            
         return dados
-    
     except Exception as e:
-        st.error(f"Erro ao carregar dados: {e}")
+        st.error(f"Erro ao carregar os dados locais:\n{e}")
         return pd.DataFrame(columns=['EXAMES', 'CÓDIGO', 'PRAZO', 'TUBO', 
-                                   'CUIDADOS ESPECIAIS', 'LABORATÓRIO', 'CONTEÚDO'])
+                                     'CUIDADOS ESPECIAIS', 'LABORATÓRIO', 'CONTEÚDO'])
 
-# ... (mantenha as funções load_logo() e display_detalhes() do seu código original)
-
-# ======================================
-# INTERFACE PRINCIPAL (igual à anterior)
-# ======================================
 dados = load_data()
 
 # Sidebar (mantenha igual)
