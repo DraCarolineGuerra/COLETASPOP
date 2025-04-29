@@ -2,6 +2,8 @@ import streamlit as st
 import pandas as pd
 from PIL import Image
 import os
+import gspread
+from google.oauth2 import service_account
 
 # ======================================
 # CONFIGURAÇÃO DA PÁGINA
@@ -18,17 +20,34 @@ st.set_page_config(
 # ======================================
 @st.cache_data
 def load_data():
-    """Carrega os dados do arquivo CSV"""
+    """Carrega os dados do Google Sheets"""
     try:
-        dados = pd.read_csv('BANCO_DE_DADOS.csv', encoding='latin1')
-        dados.columns = dados.columns.str.strip()
+        # Configuração da conta de serviço (chave JSON)
+        credentials = service_account.Credentials.from_service_account_info(
+            st.secrets["gcp_service_account"],
+            scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"]
+        )
+        
+        # Conectando ao Google Sheets
+        gc = gspread.authorize(credentials)
+        
+        # ID da planilha (substitua pelo seu ID)
+        spreadsheet_id = "14iqQIJS11Fq7B1jPVxI_7Pkl4FMn2buu"  # ID do seu Google Sheets
+        worksheet = gc.open_by_key(spreadsheet_id).get_worksheet(0)  # Acessa a primeira aba
+        
+        # Carrega os dados
+        dados = pd.DataFrame(worksheet.get_all_records())
+        dados.columns = dados.columns.str.strip()  # Remove espaços extras nas colunas
+        
+        # Verifica se a coluna 'CONTEÚDO' existe, caso contrário, cria
         if 'CONTEÚDO' not in dados.columns:
             dados['CONTEÚDO'] = ''
+        
         return dados
     except Exception as e:
-        st.error(f"Erro ao carregar o banco de dados:\n{e}")
+        st.error(f"Erro ao carregar os dados do Google Sheets:\n{e}")
         return pd.DataFrame(columns=['EXAMES', 'CÓDIGO', 'PRAZO', 'TUBO', 
-                                  'CUIDADOS ESPECIAIS', 'LABORATÓRIO', 'CONTEÚDO'])
+                                     'CUIDADOS ESPECIAIS', 'LABORATÓRIO', 'CONTEÚDO'])
 
 def load_logo():
     """Carrega a imagem do logo"""
@@ -69,7 +88,7 @@ with st.sidebar:
     if logo:
         st.image(logo, width=100)
     else:
-        st.markdown("""
+        st.markdown(""" 
         <div style='width:100px; height:100px; background-color:#f0f0f0; 
         border-radius:10px; display:flex; justify-content:center; 
         align-items:center; margin-bottom:20px;'>
