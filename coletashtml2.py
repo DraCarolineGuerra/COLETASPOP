@@ -55,7 +55,7 @@ with col_title:
 
 # Carregar dados
 try:
-   dados = pd.read_csv('BANCO DE DADOS.csv', encoding='latin1')
+    dados = pd.read_csv('BANCO DE DADOS.csv', encoding='latin1')
     dados.columns = dados.columns.str.strip()
     if 'CONTEÚDO' not in dados.columns:
         dados['CONTEÚDO'] = ''
