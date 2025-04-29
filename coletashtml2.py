@@ -3,7 +3,6 @@ import pandas as pd
 from PIL import Image
 import os
 import gspread
-from google.oauth2 import service_account
 
 # ======================================
 # CONFIGURAÇÃO DA PÁGINA
@@ -22,14 +21,8 @@ st.set_page_config(
 def load_data():
     """Carrega os dados do Google Sheets"""
     try:
-        # Configuração da conta de serviço (chave JSON)
-        credentials = service_account.Credentials.from_service_account_info(
-            st.secrets["gcp_service_account"],
-            scopes=["https://www.googleapis.com/auth/spreadsheets.readonly"]
-        )
-        
-        # Conectando ao Google Sheets
-        gc = gspread.authorize(credentials)
+        # Conectando ao Google Sheets sem a necessidade de autenticação
+        gc = gspread.service_account()  # Não será mais necessário usar a chave de autenticação
         
         # ID da planilha (substitua pelo seu ID)
         spreadsheet_id = "14iqQIJS11Fq7B1jPVxI_7Pkl4FMn2buu"  # ID do seu Google Sheets
@@ -113,7 +106,7 @@ st.header("Catálogo de Exames")
 
 # Filtragem
 if termo_busca:
-    resultados = dados[
+    resultados = dados[ 
         dados['EXAMES'].fillna('').str.lower().str.contains(termo_busca.lower()) | 
         dados['CONTEÚDO'].fillna('').str.lower().str.contains(termo_busca.lower())
     ]
