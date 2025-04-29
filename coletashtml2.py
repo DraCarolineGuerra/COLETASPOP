@@ -3,13 +3,23 @@ import pandas as pd
 
 # Estilo personalizado
 st.markdown("""
+# Estilo personalizado
+st.markdown("""
     <style>
     body {
         background-color: #f5f2fc;
-        color: #333333;
     }
     .stApp {
         background-color: #f5f2fc;
+    }
+    html, body, [class*="st-"] {
+        color: #333333 !important;
+    }
+    input, textarea {
+        color: #333333 !important;
+    }
+    .stSelectbox div, .stTextInput input {
+        color: #333333 !important;
     }
     .block-container {
         padding-top: 2rem;
