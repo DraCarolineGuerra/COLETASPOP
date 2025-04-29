@@ -21,9 +21,9 @@ st.set_page_config(
 def load_data():
     """Carrega os dados do Google Sheets"""
     try:
-        # Conectando ao Google Sheets sem a necessidade de autenticação
-        gc = gspread.service_account()  # Não será mais necessário usar a chave de autenticação
-        
+        # Conectando ao Google Sheets usando o gspread sem autenticação
+        gc = gspread.service_account()
+
         # ID da planilha (substitua pelo seu ID)
         spreadsheet_id = "14iqQIJS11Fq7B1jPVxI_7Pkl4FMn2buu"  # ID do seu Google Sheets
         worksheet = gc.open_by_key(spreadsheet_id).get_worksheet(0)  # Acessa a primeira aba
@@ -101,12 +101,13 @@ with st.sidebar:
     if st.button("🧹 Limpar busca", use_container_width=True):
         termo_busca = ""
 
+
 # Área principal
 st.header("Catálogo de Exames")
 
 # Filtragem
 if termo_busca:
-    resultados = dados[ 
+    resultados = dados[
         dados['EXAMES'].fillna('').str.lower().str.contains(termo_busca.lower()) | 
         dados['CONTEÚDO'].fillna('').str.lower().str.contains(termo_busca.lower())
     ]
@@ -124,35 +125,4 @@ if not resultados.empty:
     
     if exame_selecionado:
         detalhes = resultados[resultados['EXAMES'] == exame_selecionado].iloc[0]
-        display_detalhes(detalhes)
-else:
-    st.warning("Nenhum exame encontrado com o termo buscado.")
-
-# Rodapé
-st.divider()
-st.caption("© 2025 Coleta+ | Desenvolvido por Caroline Guerra 🐾")
-
-# ======================================
-# ESTILOS CSS ADICIONAIS
-# ======================================
-st.markdown("""
-<style>
-    /* Melhora o visual dos selects */
-    div[data-baseweb="select"] {
-        border: 1px solid #8a2be2 !important;
-        border-radius: 8px !important;
-    }
-    
-    /* Botão de limpar busca */
-    div[data-testid="stButton"] button {
-        background-color: #f5f0fa;
-        color: #4b0082;
-        border: 1px solid #8a2be2;
-    }
-    
-    div[data-testid="stButton"] button:hover {
-        background-color: #8a2be2 !important;
-        color: white !important;
-    }
-</style>
-""", unsafe_allow_html=True)
+        display_detal_
