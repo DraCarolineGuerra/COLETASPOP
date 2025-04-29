@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 
-# Layout da página (precisa ser o primeiro comando Streamlit!)
+# Layout da página (PRIMEIRO COMANDO STREAMLIT)
 st.set_page_config(page_title="Coleta+ 🐾", layout="wide")
 
 # Estilo personalizado
@@ -73,10 +73,10 @@ with col_esquerda:
     exames_filtrados = []
     if termo:
         exames_filtrados = dados[dados['EXAMES'].fillna('').str.lower().str.contains(termo.lower()) |
-                                 dados['CONTEÚDO'].fillna('').str.lower().str.contains(termo.lower())]['EXAMES'].unique()
+                                 dados['CONTEÚDO'].fillna('').str.lower().str.contains(termo.lower())]['EXAMES'].unique().tolist()
 
     exame_selecionado = None
-    if exames_filtrados.any():
+    if exames_filtrados:
         exame_selecionado = st.selectbox("Exames encontrados:", exames_filtrados)
     elif termo:
         st.warning("Nenhum exame encontrado.")
