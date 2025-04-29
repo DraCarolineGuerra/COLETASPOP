@@ -3,23 +3,18 @@ import pandas as pd
 
 # Estilo personalizado
 st.markdown("""
-# Estilo personalizado
-st.markdown("""
     <style>
-    body {
+    html, body, [class*="st-"] {
         background-color: #f5f2fc;
+        color: #333333 !important;
+        font-family: 'Segoe UI', sans-serif;
+    }
+    input, textarea, select {
+        color: #333333 !important;
+        background-color: #ffffff !important;
     }
     .stApp {
         background-color: #f5f2fc;
-    }
-    html, body, [class*="st-"] {
-        color: #333333 !important;
-    }
-    input, textarea {
-        color: #333333 !important;
-    }
-    .stSelectbox div, .stTextInput input {
-        color: #333333 !important;
     }
     .block-container {
         padding-top: 2rem;
@@ -36,10 +31,14 @@ st.markdown("""
         margin-bottom: 1rem;
         border-radius: 10px;
         box-shadow: 2px 2px 8px rgba(0,0,0,0.1);
+        display: flex;
+        align-items: center;
+        gap: 1rem;
     }
     .label {
         color: #6a0dad;
         font-weight: bold;
+        min-width: 180px;
     }
     </style>
 """, unsafe_allow_html=True)
@@ -89,7 +88,7 @@ with col_direita:
 
         def box(titulo, valor):
             if pd.notna(valor) and str(valor).strip():
-                st.markdown(f"<div class='box'><span class='label'>{titulo}:</span> {valor}</div>", unsafe_allow_html=True)
+                st.markdown(f"<div class='box'><span class='label'>{titulo}:</span><span>{valor}</span></div>", unsafe_allow_html=True)
 
         st.subheader(f"📄 Detalhes do exame: {resultado['EXAMES']}")
         box("Código", resultado['CÓDIGO'])
